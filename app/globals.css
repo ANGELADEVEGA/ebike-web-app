@@ -1,0 +1,325 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display&family=Poppins:wght@200;400;700&display=swap');
+@useEffect
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --foreground: #ededed;
+    --background: #0a0a0a;
+  }
+}
+
+html, body {
+  height: 100%;
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+  -ms-overflow-style: none;
+  scrollbar-width: none; 
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  
+}
+
+html::-webkit-scrollbar {
+  display: none;
+}
+
+* {
+  box-sizing: border-box; 
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+.gradient-background {
+  height: 100vh; /* Ensure it covers the full viewport height */
+  background: linear-gradient(135deg, #FF6F61, #FF8C61, #FFDA61, #6FA3EF, #61D6EF); /* Adjust colors as needed */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white; /* Text color */
+}
+
+.section {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+ /* Buttons Style */
+ .color-buttons {
+  position: fixed;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.color-button {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+}
+
+/* Specific colors for the buttons */
+.btn-red { background-color: red; }
+.btn-green { background-color: green; }
+.btn-blue { background-color: blue; }
+
+/* Arrow buttons style */
+.arrow-buttons {
+  position: fixed;
+  left: 10px;
+  bottom: 20px; /* Position near the bottom */
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.arrow-button {
+  width: 50px; /* Increase size for circle */
+  height: 50px;
+  border: none;
+  background: black; /* Circle background */
+  border-radius: 50%; /* Make it circular */
+  position: relative; /* Positioning for the arrow */
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.arrow-button:hover {
+  transform: scale(1.1); /* Slightly enlarge on hover */
+}
+
+/* V-shape arrow using pseudo-elements */
+.arrow-button::before,
+.arrow-button::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-left: 15px solid transparent; /* Left side of V */
+  border-right: 15px solid transparent; /* Right side of V */
+  transition: border-color 0.2s;
+}
+
+/* Up arrow */
+.arrow-button.up::before {
+  border-bottom: 20px solid white; /* Color of the arrow */
+  top: 10px; /* Adjust vertical position */
+  left: 8px; /* Center the arrow */
+}
+
+.arrow-button.up::after {
+  border-top: 20px solid transparent; /* Base of the V shape */
+  bottom: 10px; /* Adjust vertical position */
+  left: 8px; /* Center the arrow */
+}
+
+/* Down arrow */
+.arrow-button.down::before {
+  border-top: 20px solid white; /* Color of the arrow */
+  bottom: 10px; /* Adjust vertical position */
+  left: 8px; /* Center the arrow */
+}
+
+.arrow-button.down::after {
+  border-bottom: 20px solid transparent; /* Base of the V shape */
+  top: 10px; /* Adjust vertical position */
+  left: 8px; /* Center the arrow */
+}
+
+/* Styling for texts in the second section */
+.text-container {
+  position: absolute; /* Position texts absolutely to align left */
+  left: 20px; /* Align to the left with some margin */
+  top: 50%; /* Center vertically */
+  transform: translateY(-50%); /* Adjust vertical alignment */
+}
+
+.text-item {
+  margin: 10px 0; /* Adjust margin for spacing */
+  font-size: 24px;
+  color: black;
+  opacity: 0; /* Start with hidden content */
+  transition: opacity 0.5s ease; /* Fade-in effect */
+}
+
+/* To show items when in view */
+.visible {
+  opacity: 1; /* Show content */
+}
+
+.scroll-bar {
+  width: 5px; /* Width of the scrollbar */
+  height: 100%; /* Full height of the container */
+  background-color: #000; /* Color of the scrollbar (black) */
+  border-radius: 5px; /* Rounded corners */
+  position: absolute; /* To position within the scroll-bar-container */
+  left: 5px; /* Align it inside the container */
+}
+
+/* Dots for scrollbar */
+.scrollbar-dots {
+  position: absolute; /* Position the dots relative to the scroll bar container */
+  left: -20px; /* Position the dots to the left of the scrollbar */
+  top: 0;
+  bottom: 0;
+  width: 10px; /* Width of the dots */
+  background: radial-gradient(circle, #fff 20%, transparent 20%) 0 0; /* White dot pattern */
+  background-size: 5px 5px; /* Size of the dots */
+  z-index: 1; /* Bring dots to the front */
+}
+
+.section {
+  display: flex;
+  padding: 10px; /* Optional: Add some padding to the section */
+}
+
+.flex {
+  display: flex;
+}
+
+.scroll-bar-container {
+  position: relative; /* Allow absolute positioning for scrollbar and dots */
+  width: 12px; /* Width of the scroll bar */
+  background-color: transparent; /* No background for the scrollbar container */
+  margin-right: 10px; /* Space between text and scroll bar */
+  height: 100%; /* Full height of the text container */
+}
+
+.scroll-bar {
+  width: 12px; /* Width of the vertical line */
+  height: 100%; /* Full height of the container */
+  background-color: black; /* Color of the scroll bar */
+  border-radius: 6px; /* Rounded edges */
+  position: absolute; /* Position the scrollbar within the container */
+  top: 0; /* Align to the top */
+  left: 0; /* Align to the left */
+}
+
+.text-container {
+  max-height: 400px; /* Adjust height as needed */
+  overflow-y: auto; /* Enable vertical scroll */
+  padding-left: 20px; /* Space for scrollbar */
+}
+
+/* styles.css */
+.image-container {
+  position: relative;
+  background-color: none; /* Gray-200 */
+  border-radius: none; /* Rounded corners */
+  box-shadow: none; /* Shadow effect */
+  overflow: hidden; /* Prevent overflow */
+}
+
+.image-container img {
+  width: 50vh; /* 40% of viewport height */
+  height: 50h; /* 40% of viewport height */
+  transition: transform 0.3s; /* Smooth transition for transform */
+}
+
+.image-container img:hover {
+  transform: scale(1.1); /* Scale image on hover */
+}
+
+.image-container {
+  overflow: hidden;
+}
+
+/* Adding a transition for the sections to create a seamless effect */
+section {
+  transition: transform 0.5s ease;
+}
+
+.section {
+  display: flex;
+  min-height: 100vh;
+  position: relative;
+  z-index: 2;
+}
+
+.section > *{
+  width: 50%;
+}
+
+.section-img {
+  position: relative;
+  display: flex;
+}
+
+.section-img-inner {
+  height: 100vh;
+  position: fixed;
+  left: 5%;
+  width: 40%;
+  top: 0;
+  mix-blend-mode: multiply;
+  background-size: contain;
+  background-position: 50% 50%;
+  filter: blur(30px);
+  opacity: 0;
+  background-position: 50% 40%;
+  transition: .6s ease, opacity .6s ease, background-position .8s ease;
+}
+
+.section-body {
+  display: flex;
+  align-items: center;
+}
+
+.section-text {
+  padding: 5vw;
+}
+
+.section.active .section-img-inner {
+  opacity: 0;
+  background-position: 50% 50%;
+  filter: blur(0);
+}
+
+h2 {
+  font-size: 3vw;
+  margin-bottom: 0.5em;
+  margin-top: 0;
+}
+
+.image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.bike-image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  transition: transform 0.3s ease-in-out;
+}
+
+.bike-image:hover {
+  transform: scale(1.1);
+}
