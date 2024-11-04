@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Color Background Changer</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    /* Styling for sections to create scroll pages */
+    .section {
+      height: 100vh;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative; /* Add position relative for inner elements */
+    }
+
+    /* Buttons Style */
+    .color-buttons {
+      position: fixed;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .color-button {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      border: none;
+      cursor: pointer;
+    }
+
+    /* Specific colors for the buttons */
+    .btn-red { background-color: red; }
+    .btn-green { background-color: green; }
+    .btn-blue { background-color: blue; }
+
+    /* Arrow buttons style */
+    .arrow-buttons {
+      position: fixed;
+      left: 10px;
+      bottom: 20px; /* Position near the bottom */
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .arrow-button {
+      width: 50px; /* Increase size for circle */
+      height: 50px;
+      border: none;
+      background: black; /* Circle background */
+      border-radius: 50%; /* Make it circular */
+      position: relative; /* Positioning for the arrow */
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .arrow-button:hover {
+      transform: scale(1.1); /* Slightly enlarge on hover */
+    }
+
+    /* V-shape arrow using pseudo-elements */
+    .arrow-button::before,
+    .arrow-button::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 0;
+      border-left: 15px solid transparent; /* Left side of V */
+      border-right: 15px solid transparent; /* Right side of V */
+      transition: border-color 0.2s;
+    }
+
+    /* Up arrow */
+    .arrow-button.up::before {
+      border-bottom: 20px solid white; /* Color of the arrow */
+      top: 10px; /* Adjust vertical position */
+      left: 8px; /* Center the arrow */
+    }
+
+    .arrow-button.up::after {
+      border-top: 20px solid transparent; /* Base of the V shape */
+      bottom: 10px; /* Adjust vertical position */
+      left: 8px; /* Center the arrow */
+    }
+
+    /* Down arrow */
+    .arrow-button.down::before {
+      border-top: 20px solid white; /* Color of the arrow */
+      bottom: 10px; /* Adjust vertical position */
+      left: 8px; /* Center the arrow */
+    }
+
+    .arrow-button.down::after {
+      border-bottom: 20px solid transparent; /* Base of the V shape */
+      top: 10px; /* Adjust vertical position */
+      left: 8px; /* Center the arrow */
+    }
+
+    /* Styling for texts in the second section */
+    .text-container {
+      position: absolute; /* Position texts absolutely to align left */
+      left: 20px; /* Align to the left with some margin */
+      top: 50%; /* Center vertically */
+      transform: translateY(-50%); /* Adjust vertical alignment */
+    }
+
+    .text-item {
+      margin: 10px 0; /* Adjust margin for spacing */
+      font-size: 24px;
+      color: black;
+      opacity: 0; /* Start with hidden content */
+      transition: opacity 0.5s ease; /* Fade-in effect */
+    }
+
+    /* To show items when in view */
+    .visible {
+      opacity: 1; /* Show content */
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Second section (scroll page 2) -->
+  <div class="section" id="secondPage" style="background-color: white;">
+    <h1>Page 2</h1>
+    <div class="text-container">
+      <div class="text-item">Text Item 1</div>
+      <div class="text-item">Text Item 2</div>
+      <div class="text-item">Text Item 3</div>
+      <div class="text-item">Text Item 4</div>
+    </div>
+  </div>
+
+  <!-- Color change buttons -->
+  <div class="color-buttons">
+    <button class="color-button btn-red" onclick="changeBackgroundColor('red')"></button>
+    <button class="color-button btn-green" onclick="changeBackgroundColor('green')"></button>
+    <button class="color-button btn-blue" onclick="changeBackgroundColor('blue')"></button>
+  </div>
+
+  <!-- Arrow buttons for navigation -->
+  <div class="arrow-buttons">
+    <button class="arrow-button up" onclick="scrollToPreviousText()"></button> <!-- Up arrow -->
+    <button class="arrow-button down" onclick="scrollToNextText()"></button> <!-- Down arrow -->
+  </div>
+
+  <script>
+    function changeBackgroundColor(color) {
+      const secondPage = document.getElementById('secondPage');
+      secondPage.style.backgroundColor = color;
+    }
+
+    let currentTextIndex = 0; // Keep track of the current text index
+
+    // Function to scroll to the next text item
+    function scrollToNextText() {
+      const textItems = document.querySelectorAll('.text-item');
+      if (currentTextIndex < textItems.length) {
+        // Hide the current text item
+        if (currentTextIndex > 0) {
+          textItems[currentTextIndex - 1].classList.remove('visible');
+        }
+        // Show the next text item
+        textItems[currentTextIndex].classList.add('visible'); // Make the next text visible
+        textItems[currentTextIndex].scrollIntoView({ behavior: 'smooth' }); // Scroll into view
+        currentTextIndex++; // Move to the next index
+      }
+    }
+
+    // Function to scroll to the previous text item
+    function scrollToPreviousText() {
+      const textItems = document.querySelectorAll('.text-item');
+      if (currentTextIndex > 0) {
+        currentTextIndex--; // Move to the previous index
+        // Hide the current text item
+        if (currentTextIndex > 0) {
+          textItems[currentTextIndex].classList.remove('visible');
+        }
+        // Show the previous text item
+        textItems[currentTextIndex].classList.add('visible'); // Make the previous text visible
+        textItems[currentTextIndex].scrollIntoView({ behavior: 'smooth' }); // Scroll into view
+      } else {
+        // If at the top, scroll to the section
+        const secondPage = document.getElementById('secondPage');
+        secondPage.scrollIntoView({ behavior: 'smooth' });
+        resetTextItemsVisibility(); // Reset visibility
+      }
+    }
+
+    // Function to reset text items visibility in reverse order
+    function resetTextItemsVisibility() {
+      const textItems = document.querySelectorAll('.text-item');
+      textItems.forEach(item => item.classList.remove('visible'));
+      currentTextIndex = 0; // Reset index to the first item
+      if (textItems.length > 0) {
+        textItems[currentTextIndex].classList.add('visible'); // Show the first item
+      }
+    }
+
+    // Initially make the first text item visible
+    document.addEventListener('DOMContentLoaded', () => {
+      const textItems = document.querySelectorAll('.text-item');
+      if (textItems.length > 0) {
+        textItems[0].classList.add('visible');
+      }
+    });
+  </script>
+
+</body>
+</html>
