@@ -309,10 +309,12 @@ export default function Home() {
               <div className="scroll-bar" style={{ width: '3px', height: '100%', backgroundColor: 'black', position: 'absolute', top: '0', left: '20px', zIndex: 1 }}></div>
               </div>
             <div className="text-container">
+              <div className="text-item" style={{ fontWeight: 100, fontSize: '0.90rem' }}> </div>
               <div className="text-item" style={{ fontWeight: 100, fontSize: '0.90rem' }}>E-Mobility Electric Vehicles (EVs)</div>
               <div className="text-item" style={{ fontWeight: 100, fontSize: '0.90rem' }}>Charging Infrastructure</div>
               <div className="text-item" style={{ fontWeight: 100, fontSize: '0.90rem' }}>Smart Mibility Solutions</div>
               <div className="text-item" style={{ fontWeight: 100, fontSize: '0.90rem' }}>Sustainable Urban Transportation</div>
+              <div className="text-item" style={{ fontWeight: 100, fontSize: '0.90rem' }}> </div>
             </div>
           </div>
         </div>
